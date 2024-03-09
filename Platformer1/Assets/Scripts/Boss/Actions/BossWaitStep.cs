@@ -37,16 +37,13 @@ namespace StateMachine
         {
             if (timerCurrent <= 0)
             {
-                
-                int rand = Random.Range(1, 100);
-                Debug.Log(rand);
-                if (true)
+                int rand = Random.Range(1, 99);
+                if (rand%2 == 1)
                 {
                     _runner.SetAction(typeof(BossMove));
                 }
                 else
                 {
-                    Debug.Log("shoot");
                     _runner.SetAction(typeof(BossShoot));
                 }
             }

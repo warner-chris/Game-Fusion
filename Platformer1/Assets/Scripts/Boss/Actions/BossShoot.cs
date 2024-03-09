@@ -11,12 +11,14 @@ namespace StateMachine
     {
         private BossBase baseScript;
         private BossAnim animScript;
+        private Rigidbody2D rb;
 
         public override void Init(BossBase parent)
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<BossBase>();
             animScript = parent.GetComponentInChildren<BossAnim>();
+            rb = parent.GetComponentInChildren<Rigidbody2D>();
             Enter();
         }
 
@@ -32,10 +34,8 @@ namespace StateMachine
 
         public override void ChangeAction()
         {
-            Debug.Log(animScript.CheckShootFinished());
             if (animScript.CheckShootFinished())
             {
-                Debug.Log("change");
                 _runner.SetAction(typeof(BossWaitStep));
             }
         }
@@ -47,6 +47,14 @@ namespace StateMachine
 
         private void Enter()
         {
+            if (rb.transform.position.x <= baseScript.GetPlayerPositionX())
+            {
+                rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y);
+            }
+            else if (rb.transform.position.x >= baseScript.GetPlayerPositionX())
+            {
+                rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * -1, rb.transform.localScale.y);
+            }
             animScript.ResetShootFinished();
             animScript.ShootAnim();
         }

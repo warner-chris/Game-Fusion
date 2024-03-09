@@ -13,12 +13,9 @@ namespace StateMachine
         private BossBase baseScript;
         private BossAnim animScript;
         private float targetPositionX;
-        private float targetDashPositionX;
         [SerializeField] private float movementSpeed;
-        [SerializeField] private float dashSpeed;
         private Rigidbody2D rb;
         private bool changeToWait;
-        private bool changeToAttack;
         [SerializeField] private float leftMostEdge;
         [SerializeField] private float rightMostEdge;
         private int currentDirection;
@@ -35,6 +32,7 @@ namespace StateMachine
         public override void PlayAction()
         {
             MoveBoss();
+            ChangeAnim();
             ChangeAction();
         }
 
@@ -49,17 +47,12 @@ namespace StateMachine
             {
                 _runner.SetAction(typeof(BossWaitStep));
             }
-            else if (changeToAttack)
-            {
-                _runner.SetAction(typeof(BossAttack));
-            }
         }
 
         private void Enter()
         {
             changeToWait = false;
-            targetDashPositionX = baseScript.GetPlayerPositionX();
-            //targetPositionX = rb.transform.position.x 
+            targetPositionX = baseScript.GetPlayerPositionX();
             if (targetPositionX > rb.transform.position.x)
             {
                 currentDirection = 1;
@@ -97,28 +90,28 @@ namespace StateMachine
 
         private void MoveBoss()
         {
-            if (rb.transform.position.x != (targetPositionX) && !EdgeFound())
-            {
 
-                animScript.DashAnim();
+            if (rb.transform.position.x != targetPositionX && !EdgeFound())
+            {
                 rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), movementSpeed * Time.fixedDeltaTime);
             }
 
             else
             {
-                if (rb.transform.position.x != targetPositionX && !EdgeFound())
-                {
-                    animScript.DashAnim();
-                    rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), dashSpeed * Time.fixedDeltaTime);
-                }
-                else
-                {
-                    changeToWait = true;
-                }
+                changeToWait = true;
+            }
+        }
+
+        private void ChangeAnim()
+        {
+            if (rb.transform.position.x >= targetPositionX/ 2 && currentDirection == 1)
+            {
+                animScript.DashAnim();
+            }
+            else if (rb.transform.position.x <= targetPositionX / 2 && currentDirection == -1)
+            {
+                animScript.DashAnim();
             }
         }
     }
 }
-
-
-//
