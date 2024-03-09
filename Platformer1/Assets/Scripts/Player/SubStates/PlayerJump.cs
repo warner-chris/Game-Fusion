@@ -14,23 +14,20 @@ namespace StateMachine
         Rigidbody2D rb;
         private bool firstPass;
         private bool isJumping;
-        private int jumpCounterCurr;
-        [SerializeField] private int jumpCounterMax;
+        private float jumpCounterCurr;
+        [SerializeField] private float jumpCounterMax;
         [SerializeField] private float firstPassJumpForce;
         [SerializeField] private float jumpForce;
         private float horizontalInput;
         [SerializeField] private float horizontalDecelerationValue;
-        private int playerMovementDirection;
-        private float newHorizontalVelocity;
-        [SerializeField] private float maxWalkVelocity;
-
+        private int currentDirection;
 
         public override void Init(PlayerBase parent)
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
-            playerMovementDirection = baseScript.GetPlayerDirection();
+            currentDirection = baseScript.GetPlayerDirection();
             Enter();
         }
 
@@ -49,7 +46,7 @@ namespace StateMachine
         private void Enter()
         {
             isJumping = true;
-            jumpCounterCurr = 0;
+            jumpCounterCurr = jumpCounterMax;
             firstPass = true;
         }
 
@@ -61,7 +58,6 @@ namespace StateMachine
         {
             if (!isJumping)
             {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
                 _runner.SetAction(typeof(PlayerFall));
             }
         }
@@ -71,10 +67,11 @@ namespace StateMachine
         {
             if (!firstPass)
             {
-                if (baseScript.GetJump() && jumpCounterCurr <= jumpCounterMax)
+                if (baseScript.GetJump() && jumpCounterCurr > 0)
                 {
-                    jumpCounterCurr++;
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpForce);
+                    jumpCounterCurr -= Time.deltaTime;
+
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 }
 
                 else
@@ -85,7 +82,7 @@ namespace StateMachine
 
             else
             {
-                rb.velocity = new Vector2((rb.velocity.x/2), rb.velocity.y + firstPassJumpForce);
+                rb.velocity = new Vector2(rb.velocity.x, firstPassJumpForce);
                 firstPass = false;
             }   
         }
@@ -97,28 +94,14 @@ namespace StateMachine
 
         private void ApplyMovement()
         {
-            if (playerMovementDirection == 1 &&  horizontalInput < 0.2f)
+            if (currentDirection == 1 &&  horizontalInput < 0.2f)
             {
-                newHorizontalVelocity = (rb.velocity.x + (horizontalDecelerationValue + Time.fixedDeltaTime));
-                CheckMaxVelocity();
+                rb.velocity = new Vector2((rb.velocity.x + (horizontalDecelerationValue + Time.fixedDeltaTime)), rb.velocity.y);
             }
 
-            else if (playerMovementDirection == -1 && horizontalInput > -0.2f)
+            else if (currentDirection == -1 && horizontalInput > -0.2f)
             {
-                newHorizontalVelocity = (rb.velocity.x + (horizontalDecelerationValue + Time.fixedDeltaTime));
-                CheckMaxVelocity();
-            }
-        }
-
-        private void CheckMaxVelocity()
-        {
-            if (Mathf.Abs(newHorizontalVelocity) >= maxWalkVelocity)
-            {
-                rb.velocity = new Vector2((playerMovementDirection * maxWalkVelocity), rb.velocity.y);
-            }
-            else
-            {
-                rb.velocity = new Vector2(newHorizontalVelocity, rb.velocity.y);
+                rb.velocity = new Vector2(rb.velocity.x - (horizontalDecelerationValue + Time.fixedDeltaTime), rb.velocity.y);
             }
         }
     }

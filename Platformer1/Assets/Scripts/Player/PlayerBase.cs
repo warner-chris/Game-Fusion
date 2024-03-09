@@ -14,7 +14,6 @@ namespace StateMachine
         private bool isJumping = false;
         private char wallDirection;
 
-
         protected override void Awake()
         {
             base.Awake();
@@ -83,15 +82,6 @@ namespace StateMachine
         {
             return isJumping;
         }
-
-        public void SetRun()
-        {
-
-        }
-
-        public bool GetRun()
-        {
-            return false;
-        }
     }
+
 }

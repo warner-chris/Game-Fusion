@@ -5,37 +5,36 @@ using StateMachine;
 
 namespace StateMachine
 {
-    [CreateAssetMenu(menuName = "Player/States/Actionable")]
-
-    public class Actionable : State<PlayerBase>
+    [CreateAssetMenu(menuName = "Boss/States/Actionable")]
+    public class BossActionable : State<BossBase>
     {
-        PlayerBase baseScript;
-        public override void Init(PlayerBase parent)
+        private BossBase baseScript;
+
+        public override void Init(BossBase parent)
         {
             base.Init(parent);
-            baseScript = parent.GetComponentInChildren<PlayerBase>();
+            baseScript = parent.GetComponentInChildren<BossBase>();
             ChangeAction();
         }
 
         public override void Update()
         {
             _runner.GetActiveAction().PlayAction();
-            baseScript.SetJump();
         }
 
         public override void FixedUpdate()
         {
-            _runner.GetActiveAction().PlayFixedAction();
+            ChangeState();
         }
 
         public override void ChangeAction()
         {
-            _runner.SetAction(typeof(PlayerMove));
+            _runner.SetAction(typeof(BossWaitStep));
         }
 
         public override void ChangeState()
         {
-
+            //_runner.SetState(typeof(BossKnockback));
         }
 
         public override void Exit()

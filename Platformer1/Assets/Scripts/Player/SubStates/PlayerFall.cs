@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
+using UnityEditor;
 
 namespace StateMachine
 {
@@ -15,36 +16,42 @@ namespace StateMachine
         [SerializeField] private float gravMultiplier;
         private float horizontalMovement;
         private float currentFallSpeed;
-        private int playerMovementDirection;
-        private float newHorizontalVelocity;
-        [SerializeField] private float maxWalkVelocity;
 
         public override void Init(PlayerBase parent)
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
-            playerMovementDirection = baseScript.GetPlayerDirection();
+            Enter();
         }
 
         public override void PlayAction()
         {
-            IncreaseGrav();
             GetInput();
+            ChangeAction();
             ApplyMovement();
+            IncreaseGrav();
         }
 
         public override void PlayFixedAction()
         {
-            ChangeAction();
         }
 
         public override void ChangeAction()
         {
             if (baseScript.IsGrounded())
             {
+                if (horizontalMovement < 0.2f && horizontalMovement > -0.2f)
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
                 _runner.SetAction(typeof(PlayerMove));
             }
+        }
+
+        private void Enter()
+        {
+            //rb.velocity = new Vector2(rb.velocity.x/2, rb.velocity.y);
         }
 
         public override void Exit()
@@ -74,27 +81,12 @@ namespace StateMachine
         {
             if (horizontalMovement > 0.2f)
             {
-                newHorizontalVelocity = (rb.velocity.x + (airSpeed * Time.fixedDeltaTime));
-                CheckMaxVelocity();
+                rb.velocity = new Vector2((rb.velocity.x + (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
             }
 
             else if (horizontalMovement < -0.2f)
             {
-                newHorizontalVelocity = (rb.velocity.x - (airSpeed * Time.fixedDeltaTime));
-                CheckMaxVelocity();
-            }
-        }
-
-        private void CheckMaxVelocity()
-        {
-            if (Mathf.Abs(newHorizontalVelocity) >= maxWalkVelocity)
-            {
-                rb.velocity = new Vector2((playerMovementDirection * maxWalkVelocity), rb.velocity.y);
-            }
-
-            else
-            {
-                rb.velocity = new Vector2(newHorizontalVelocity, rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x - (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
             }
         }
     }

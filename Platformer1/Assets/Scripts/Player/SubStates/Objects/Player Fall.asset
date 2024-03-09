@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960ac1aca72b7dd4690fd430906c5d55, type: 3}
   m_Name: Player Fall
   m_EditorClassIdentifier: 
-  airSpeed: 5
-  gravMultiplier: 5
-  maxWalkVelocity: 70
+  airSpeed: 8
+  gravMultiplier: 10

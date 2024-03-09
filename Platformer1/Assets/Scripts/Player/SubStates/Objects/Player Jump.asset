@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d11bd7565b66f47beafa573a6bc2fc, type: 3}
   m_Name: Player Jump
   m_EditorClassIdentifier: 
-  jumpCounterMax: 75
-  firstPassJumpForce: 5
-  jumpForce: 0.35
-  horizontalDecelerationValue: 3
-  maxWalkVelocity: 70
+  jumpCounterMax: 0.35
+  firstPassJumpForce: 12
+  jumpForce: 12
+  horizontalDecelerationValue: 8
