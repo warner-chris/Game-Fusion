@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c00c3438268e6419ff785fa00fdc11, type: 3}
   m_Name: New Boss Wait Step
   m_EditorClassIdentifier: 
-  timeToPass: 5
+  timeToPass: 1

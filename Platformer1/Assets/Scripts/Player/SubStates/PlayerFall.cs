@@ -11,6 +11,7 @@ namespace StateMachine
     public class PlayerFall : SubState<PlayerBase>
     {
         private PlayerBase baseScript;
+        private PlayerAnimator animScript;
         private Rigidbody2D rb;
         [SerializeField] private float airSpeed;
         [SerializeField] private float gravMultiplier;
@@ -21,6 +22,7 @@ namespace StateMachine
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
+            animScript = parent.GetComponentInChildren<PlayerAnimator>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
             Enter();
         }

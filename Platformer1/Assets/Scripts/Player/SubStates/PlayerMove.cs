@@ -11,8 +11,9 @@ namespace StateMachine
 
     public class PlayerMove : SubState<PlayerBase>
     {
-        PlayerBase baseScript;
-        Rigidbody2D rb;
+        private PlayerBase baseScript;
+        private PlayerAnimator animScript;
+        private Rigidbody2D rb;
         private float moveHorizontal;
         [SerializeField] private float baseSpeed;
         private int playerMovementDirection;
@@ -26,6 +27,7 @@ namespace StateMachine
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
+            animScript = parent.GetComponentInChildren<PlayerAnimator>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
             Enter();
         }
@@ -78,14 +80,23 @@ namespace StateMachine
             {
                 if (moveHorizontal > -0.2f && moveHorizontal < 0.2f)
                 {
+                    animScript.IdleAnim();
                     rb.velocity = Vector2.zero;
                 }
                 else if (moveHorizontal < -0.2f && rb.velocity.x > 0.1f)
                 {
+                    playerMovementDirection = -1;
+
+                    rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
+                    animScript.RunAnim();
                     rb.velocity = new Vector2((rb.velocity.x / firstPassVelocityCut), rb.velocity.y);
                 }
                 else if (moveHorizontal > 0.2f && rb.velocity.x  < -0.1f)
                 {
+                    playerMovementDirection = 1;
+
+                    rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
+                    animScript.RunAnim();
                     rb.velocity = new Vector2((rb.velocity.x / firstPassVelocityCut), rb.velocity.y);
                 }
                 else
@@ -100,6 +111,7 @@ namespace StateMachine
         {
             if (moveHorizontal < 0.2f && moveHorizontal > -0.2f)
             {
+                animScript.IdleAnim();
                 rb.velocity = Vector2.zero;
             }
             else
@@ -107,12 +119,14 @@ namespace StateMachine
                 if (moveHorizontal > 0.2f)
                 {
                     playerMovementDirection = 1;
+                    rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
                     newHorizontalVelocity = (rb.velocity.x + (baseSpeed * Time.fixedDeltaTime));
                     CheckMaxVelocity();
                 }
                 else if (moveHorizontal < -0.2f)
                 {
                     playerMovementDirection = -1;
+                    rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
                     newHorizontalVelocity = (rb.velocity.x - (baseSpeed * Time.fixedDeltaTime));
                     CheckMaxVelocity();
                 }
@@ -121,6 +135,7 @@ namespace StateMachine
 
         private void CheckMaxVelocity()
         {
+            animScript.RunAnim();
             if (Mathf.Abs(newHorizontalVelocity) >= maxWalkVelocity)
             {
                 rb.velocity = new Vector2((playerMovementDirection * maxWalkVelocity), rb.velocity.y);

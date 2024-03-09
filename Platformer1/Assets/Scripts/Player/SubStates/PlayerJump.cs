@@ -10,8 +10,9 @@ namespace StateMachine
 
     public class PlayerJump : SubState<PlayerBase>
     {
-        PlayerBase baseScript;
-        Rigidbody2D rb;
+        private PlayerBase baseScript;
+        private PlayerAnimator animScript;
+        private Rigidbody2D rb;
         private bool firstPass;
         private bool isJumping;
         private float jumpCounterCurr;
@@ -26,6 +27,7 @@ namespace StateMachine
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
+            animScript = parent.GetComponentInChildren<PlayerAnimator>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
             currentDirection = baseScript.GetPlayerDirection();
             Enter();
@@ -45,6 +47,7 @@ namespace StateMachine
 
         private void Enter()
         {
+            animScript.JumpAnim();
             isJumping = true;
             jumpCounterCurr = jumpCounterMax;
             firstPass = true;
@@ -62,7 +65,6 @@ namespace StateMachine
             }
         }
 
-        //Change Gravity -
         private void GetVariableJump()
         {
             if (!firstPass)

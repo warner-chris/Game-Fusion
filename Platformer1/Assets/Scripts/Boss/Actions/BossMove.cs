@@ -11,8 +11,11 @@ namespace StateMachine
     public class BossMove : SubState<BossBase>
     {
         private BossBase baseScript;
+        private BossAnim animScript;
         private float targetPositionX;
+        private float targetDashPositionX;
         [SerializeField] private float movementSpeed;
+        [SerializeField] private float dashSpeed;
         private Rigidbody2D rb;
         private bool changeToWait;
         private bool changeToAttack;
@@ -24,6 +27,7 @@ namespace StateMachine
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<BossBase>();
+            animScript = parent.GetComponentInChildren<BossAnim>();
             rb = parent.GetComponentInChildren<Rigidbody2D>();
             Enter();
         }
@@ -54,8 +58,8 @@ namespace StateMachine
         private void Enter()
         {
             changeToWait = false;
-            changeToAttack = false;
-            targetPositionX = baseScript.GetPlayerPositionX();
+            targetDashPositionX = baseScript.GetPlayerPositionX();
+            //targetPositionX = rb.transform.position.x 
             if (targetPositionX > rb.transform.position.x)
             {
                 currentDirection = 1;
@@ -64,6 +68,8 @@ namespace StateMachine
             {
                 currentDirection = -1;
             }
+            rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * currentDirection, rb.transform.localScale.y);
+            animScript.RunAnim();
         }
 
         public override void Exit()
@@ -91,17 +97,19 @@ namespace StateMachine
 
         private void MoveBoss()
         {
-            if (rb.transform.position.x != targetPositionX && !EdgeFound())
+            if (rb.transform.position.x != (targetPositionX) && !EdgeFound())
             {
+
+                animScript.DashAnim();
                 rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), movementSpeed * Time.fixedDeltaTime);
             }
 
             else
             {
-                if (rb.transform.position.x <= (targetPositionX + 0.2f) || rb.transform.position.x >= (targetPositionX - 0.2f))
+                if (rb.transform.position.x != targetPositionX && !EdgeFound())
                 {
-                    //changeToAttack = true;
-                    changeToWait = true;
+                    animScript.DashAnim();
+                    rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), dashSpeed * Time.fixedDeltaTime);
                 }
                 else
                 {
@@ -111,3 +119,6 @@ namespace StateMachine
         }
     }
 }
+
+
+//

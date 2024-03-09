@@ -10,6 +10,7 @@ namespace StateMachine
     public class BossWaitStep : SubState<BossBase>
     {
         private BossBase baseScript;
+        private BossAnim animScript;
         [SerializeField] private float timeToPass;
         private float timerCurrent;
 
@@ -17,11 +18,13 @@ namespace StateMachine
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<BossBase>();
+            animScript = parent.GetComponentInChildren<BossAnim>();
             Enter();
         }
 
         public override void PlayAction()
         {
+            animScript.IdleAnim();
             ChangeAction();
         }
 
@@ -34,13 +37,16 @@ namespace StateMachine
         {
             if (timerCurrent <= 0)
             {
-                //generate random number to use projectile instead
+                
+                int rand = Random.Range(1, 100);
+                Debug.Log(rand);
                 if (true)
                 {
                     _runner.SetAction(typeof(BossMove));
                 }
                 else
                 {
+                    Debug.Log("shoot");
                     _runner.SetAction(typeof(BossShoot));
                 }
             }
@@ -48,7 +54,6 @@ namespace StateMachine
 
         private void Enter()
         {
-            //set an idle anim
             timerCurrent = timeToPass;
         }
 

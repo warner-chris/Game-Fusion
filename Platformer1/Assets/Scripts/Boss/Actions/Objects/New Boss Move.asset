@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d395b27460c0ce4c96ae07d3e62f5dc, type: 3}
   m_Name: New Boss Move
   m_EditorClassIdentifier: 
-  movementSpeed: 2
-  leftMostEdge: -45
-  rightMostEdge: 45
+  movementSpeed: 5
+  dashSpeed: 8
+  leftMostEdge: -15
+  rightMostEdge: 14

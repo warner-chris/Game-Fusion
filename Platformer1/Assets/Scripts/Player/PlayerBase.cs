@@ -26,36 +26,6 @@ namespace StateMachine
             return hit.collider != null;
         }
 
-        public bool IsWalled()
-        {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.52f, groundLayer);
-
-            if (hit)
-            {
-                wallDirection = 'R';
-            }
-            else
-            {
-                hit = Physics2D.Raycast(transform.position, -transform.right, 0.55f, groundLayer);
-
-                if (hit)
-                {
-                    wallDirection = 'L';
-                }
-                else
-                {
-                    wallDirection = 'n';
-                }
-            }
-
-            return hit.collider != null;
-        }
-
-        public char GetWallDirection()
-        {
-            return wallDirection;
-        }
-
         public void SetPlayerDirection(int _playerDirection)
         {
             playerDirection = _playerDirection;
@@ -97,3 +67,29 @@ namespace StateMachine
         }
     }
 }
+
+/*
+ *  public bool IsWalled()
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 0.52f, groundLayer);
+
+            if (hit)
+            {
+                wallDirection = 'R';
+            }
+            else
+            {
+                hit = Physics2D.Raycast(transform.position, -transform.right, 0.55f, groundLayer);
+
+                if (hit)
+                {
+                    wallDirection = 'L';
+                }
+                else
+                {
+                    wallDirection = 'n';
+                }
+            }
+
+            return hit.collider != null;
+*/

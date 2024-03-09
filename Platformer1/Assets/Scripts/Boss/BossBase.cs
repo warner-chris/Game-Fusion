@@ -9,7 +9,6 @@ namespace StateMachine
     public class BossBase : StateRunner<BossBase>
     {
         [SerializeField] LayerMask playerLayer;
-        private bool edgeFound = false;
         private int currentDirection;
 
         protected override void Awake()
