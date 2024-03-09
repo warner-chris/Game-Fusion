@@ -21,7 +21,6 @@ public class PlatformRotate : MonoBehaviour
         {
             rb.transform.Rotate(new Vector3(0, 0, rotationSpeed * Time.deltaTime));
 
-
             if (rb.transform.localEulerAngles.z >= rotationEnd && rb.transform.localEulerAngles.z < 300)
             {
                 rotateLeft = false;
@@ -31,8 +30,6 @@ public class PlatformRotate : MonoBehaviour
         else
         {
             rb.transform.Rotate(new Vector3(0, 0, -rotationSpeed * Time.deltaTime));
-
-            Debug.Log(rb.transform.localEulerAngles.z);
 
             if (rb.transform.localEulerAngles.z <= (360 - rotationEnd) && rb.transform.localEulerAngles.z > (300))
             {

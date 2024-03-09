@@ -24,6 +24,7 @@ namespace StateMachine
 
         public override void FixedUpdate()
         {
+            _runner.GetActiveAction().PlayFixedAction();
             ChangeState();
         }
 

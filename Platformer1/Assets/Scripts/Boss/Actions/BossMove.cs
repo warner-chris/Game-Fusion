@@ -18,6 +18,7 @@ namespace StateMachine
         private bool changeToAttack;
         [SerializeField] private float leftMostEdge;
         [SerializeField] private float rightMostEdge;
+        private int currentDirection;
 
         public override void Init(BossBase parent)
         {
@@ -30,6 +31,7 @@ namespace StateMachine
         public override void PlayAction()
         {
             MoveBoss();
+            ChangeAction();
         }
 
         public override void PlayFixedAction()
@@ -53,6 +55,15 @@ namespace StateMachine
         {
             changeToWait = false;
             changeToAttack = false;
+            targetPositionX = baseScript.GetPlayerPositionX();
+            if (targetPositionX > rb.transform.position.x)
+            {
+                currentDirection = 1;
+            }
+            else
+            {
+                currentDirection = -1;
+            }
         }
 
         public override void Exit()
@@ -62,7 +73,12 @@ namespace StateMachine
 
         private bool EdgeFound()
         {
-            if (rb.transform.position.x == leftMostEdge || rb.transform.position.x == rightMostEdge)
+            if (rb.transform.position.x <= leftMostEdge && currentDirection == -1)
+            {
+                return true;
+            }
+
+            else if (rb.transform.position.x >= rightMostEdge && currentDirection == 1)
             {
                 return true;
             }
@@ -75,7 +91,7 @@ namespace StateMachine
 
         private void MoveBoss()
         {
-            if (rb.transform.position.x != targetPositionX || EdgeFound())
+            if (rb.transform.position.x != targetPositionX && !EdgeFound())
             {
                 rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), movementSpeed * Time.fixedDeltaTime);
             }
@@ -84,7 +100,8 @@ namespace StateMachine
             {
                 if (rb.transform.position.x <= (targetPositionX + 0.2f) || rb.transform.position.x >= (targetPositionX - 0.2f))
                 {
-                    changeToAttack = true;
+                    //changeToAttack = true;
+                    changeToWait = true;
                 }
                 else
                 {

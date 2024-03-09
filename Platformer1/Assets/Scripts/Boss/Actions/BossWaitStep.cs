@@ -22,7 +22,7 @@ namespace StateMachine
 
         public override void PlayAction()
         {
-
+            ChangeAction();
         }
 
         public override void PlayFixedAction()
@@ -32,7 +32,7 @@ namespace StateMachine
 
         public override void ChangeAction()
         {
-            if (timerCurrent >= 0)
+            if (timerCurrent <= 0)
             {
                 //generate random number to use projectile instead
                 if (true)

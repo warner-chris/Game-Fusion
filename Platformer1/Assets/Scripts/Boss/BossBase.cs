@@ -10,6 +10,7 @@ namespace StateMachine
     {
         [SerializeField] LayerMask playerLayer;
         private bool edgeFound = false;
+        private int currentDirection;
 
         protected override void Awake()
         {
@@ -23,9 +24,14 @@ namespace StateMachine
             return _playerPositionx;
         }
 
-        public bool EdgeFound()
+        public void SetMovementDirection(int _setDirection)
         {
-            return edgeFound;
+            currentDirection = _setDirection;
+        }
+
+        public int GetDirection()
+        {
+            return currentDirection;
         }
     }
 

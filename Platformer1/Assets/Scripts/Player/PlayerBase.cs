@@ -82,6 +82,18 @@ namespace StateMachine
         {
             return isJumping;
         }
-    }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.tag == "Boss")
+            {
+
+            }
+
+            else if (collision.gameObject.tag == "Enemy")
+            {
+                
+            }
+        }
+    }
 }
