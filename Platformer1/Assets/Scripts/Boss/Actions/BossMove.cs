@@ -93,7 +93,7 @@ namespace StateMachine
 
             if (rb.transform.position.x != targetPositionX && !EdgeFound())
             {
-                rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), movementSpeed * Time.fixedDeltaTime);
+                rb.transform.position = Vector2.MoveTowards(rb.transform.position, new Vector2(targetPositionX, rb.transform.position.y), movementSpeed * Time.deltaTime);
             }
 
             else

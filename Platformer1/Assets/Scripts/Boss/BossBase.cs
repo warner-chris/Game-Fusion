@@ -9,16 +9,21 @@ namespace StateMachine
     public class BossBase : StateRunner<BossBase>
     {
         [SerializeField] LayerMask playerLayer;
+        private Rigidbody2D rb;
         private DamageTestScript dmgScript;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private GameObject[] pees;
         private int currentDirection;
         private BoxCollider2D boxCollider;
         private bool sendKnockback;
+
 
         protected override void Awake()
         {
             base.Awake();
             boxCollider = GetComponent<BoxCollider2D>();
             dmgScript = GetComponent<DamageTestScript>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
         public float GetPlayerPositionX()
@@ -37,6 +42,33 @@ namespace StateMachine
         {
             return currentDirection;
         }
+
+        public void ShootPee()
+        {
+            if (rb.transform.position.x >= GetPlayerPositionX())
+            {
+                currentDirection = -1;
+            }
+            else
+            {
+                currentDirection = 1;
+            }
+            pees[FindPee()].transform.position = firePoint.position;
+            pees[FindPee()].GetComponent<BossProjectile>().SetDirection(currentDirection);
+        }
+
+        private int FindPee()
+        {
+            for (int i = 0; i < pees.Length; i++)
+            {
+                if (!pees[i].activeInHierarchy)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             Vector2 normal = collision.contacts[0].normal;

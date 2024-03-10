@@ -22,6 +22,8 @@ namespace StateMachine
         [SerializeField] private float maxRunVelocity;
         private bool firstPass;
         [SerializeField] private float firstPassVelocityCut;
+        [SerializeField] private float maxJumpCooldown;
+        private float currJumpCooldown;
 
         public override void Init(PlayerBase parent)
         {
@@ -34,6 +36,7 @@ namespace StateMachine
 
         public override void PlayAction()
         {
+            currJumpCooldown -= Time.deltaTime;
             GetInput();
             MoveCheck();
             ChangeAction();
@@ -41,11 +44,12 @@ namespace StateMachine
 
         public override void PlayFixedAction()
         {
+            
         }
 
         public override void ChangeAction()
         {
-            if (baseScript.GetJump())
+            if (baseScript.GetJump() && currJumpCooldown <= 0)
             {
                 _runner.SetAction(typeof(PlayerJump));
             }
@@ -59,6 +63,7 @@ namespace StateMachine
         private void Enter()
         {
             firstPass = true;
+            currJumpCooldown = maxJumpCooldown;
         }
 
         public override void Exit()
@@ -120,14 +125,14 @@ namespace StateMachine
                 {
                     playerMovementDirection = 1;
                     rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
-                    newHorizontalVelocity = (rb.velocity.x + (baseSpeed * Time.fixedDeltaTime));
+                    newHorizontalVelocity = (rb.velocity.x + (baseSpeed * Time.deltaTime));
                     CheckMaxVelocity();
                 }
                 else if (moveHorizontal < -0.2f)
                 {
                     playerMovementDirection = -1;
                     rb.transform.localScale = new Vector2(Mathf.Abs(rb.transform.localScale.x) * playerMovementDirection, rb.transform.localScale.y);
-                    newHorizontalVelocity = (rb.velocity.x - (baseSpeed * Time.fixedDeltaTime));
+                    newHorizontalVelocity = (rb.velocity.x - (baseSpeed * Time.deltaTime));
                     CheckMaxVelocity();
                 }
             }

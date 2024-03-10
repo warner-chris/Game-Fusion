@@ -15,4 +15,4 @@ MonoBehaviour:
   jumpCounterMax: 0.35
   firstPassJumpForce: 12
   jumpForce: 12
-  horizontalDecelerationValue: 8
+  horizontalDecelerationValue: 20

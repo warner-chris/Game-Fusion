@@ -53,7 +53,7 @@ namespace StateMachine
 
         private void Enter()
         {
-            //rb.velocity = new Vector2(rb.velocity.x/2, rb.velocity.y);
+
         }
 
         public override void Exit()
@@ -83,12 +83,12 @@ namespace StateMachine
         {
             if (horizontalMovement > 0.2f)
             {
-                rb.velocity = new Vector2((rb.velocity.x + (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x + (airSpeed * Time.deltaTime)), rb.velocity.y);
             }
 
             else if (horizontalMovement < -0.2f)
             {
-                rb.velocity = new Vector2((rb.velocity.x - (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x - (airSpeed * Time.deltaTime)), rb.velocity.y);
             }
         }
     }

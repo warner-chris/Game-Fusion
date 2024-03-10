@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05f7c913e81f7742a968c657e2e277c, type: 3}
   m_Name: Player Move
   m_EditorClassIdentifier: 
-  baseSpeed: 15
+  baseSpeed: 20
   maxWalkVelocity: 60
   maxRunVelocity: 30
-  firstPassVelocityCut: 2
+  firstPassVelocityCut: 1
+  maxJumpCooldown: 0

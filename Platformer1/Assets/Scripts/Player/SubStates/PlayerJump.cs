@@ -98,12 +98,12 @@ namespace StateMachine
         {
             if (currentDirection == 1 &&  horizontalInput < 0.2f)
             {
-                rb.velocity = new Vector2((rb.velocity.x + (horizontalDecelerationValue + Time.fixedDeltaTime)), rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x + (horizontalDecelerationValue + Time.deltaTime)), rb.velocity.y);
             }
 
             else if (currentDirection == -1 && horizontalInput > -0.2f)
             {
-                rb.velocity = new Vector2(rb.velocity.x - (horizontalDecelerationValue + Time.fixedDeltaTime), rb.velocity.y);
+                rb.velocity = new Vector2(rb.velocity.x - (horizontalDecelerationValue + Time.deltaTime), rb.velocity.y);
             }
         }
     }

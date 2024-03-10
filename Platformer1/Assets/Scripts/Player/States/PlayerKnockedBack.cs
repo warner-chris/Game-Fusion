@@ -14,8 +14,13 @@ namespace StateMachine
         private Rigidbody2D rb;
         [SerializeField] private float airSpeed;
         [SerializeField] private float gravMultiplier;
+        [SerializeField] private float jumpForce;
         private float horizontalMovement;
         private float currentFallSpeed;
+        private bool canFall;
+        private float currJumpTimer;
+        [SerializeField] private float maxJumpTimer;
+
 
         public override void Init(PlayerBase parent)
         {
@@ -28,10 +33,24 @@ namespace StateMachine
 
         public override void Update()
         {
-            GetInput();
-            ChangeState();
-            ApplyMovement();
-            IncreaseGrav();
+            currJumpTimer -= Time.deltaTime;
+            if (currJumpTimer <= 0)
+            {
+                canFall = true;
+            }
+
+            if (canFall)
+            {
+                GetInput();
+                ChangeState();
+                ApplyMovement();
+                IncreaseGrav();
+            }
+
+            else
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
         }
 
         public override void FixedUpdate()
@@ -47,6 +66,7 @@ namespace StateMachine
         {
             if (baseScript.IsGrounded())
             {
+                rb.velocity = Vector2.zero;
                 rb.rotation = 0f;
                 _runner.SetState(typeof(Actionable));
             }
@@ -55,6 +75,8 @@ namespace StateMachine
         private void Enter()
         {
             animScript.HurtAnim();
+            currJumpTimer = maxJumpTimer;
+            canFall = false;
         }
 
         public override void Exit()
@@ -64,7 +86,7 @@ namespace StateMachine
 
         private void IncreaseGrav()
         {
-            currentFallSpeed = rb.velocity.y - (gravMultiplier * Time.fixedDeltaTime);
+            currentFallSpeed = rb.velocity.y - (gravMultiplier * Time.deltaTime);
             if (currentFallSpeed <= -50)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -50);
@@ -85,12 +107,12 @@ namespace StateMachine
         {
             if (horizontalMovement > 0.2f)
             {
-                rb.velocity = new Vector2((rb.velocity.x + (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x + (airSpeed * Time.deltaTime)), rb.velocity.y);
             }
 
             else if (horizontalMovement < -0.2f)
             {
-                rb.velocity = new Vector2((rb.velocity.x - (airSpeed * Time.fixedDeltaTime)), rb.velocity.y);
+                rb.velocity = new Vector2((rb.velocity.x - (airSpeed * Time.deltaTime)), rb.velocity.y);
             }
         }
     }
