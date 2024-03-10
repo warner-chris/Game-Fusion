@@ -9,11 +9,14 @@ namespace StateMachine
 
     public class Actionable : State<PlayerBase>
     {
-        PlayerBase baseScript;
+        private PlayerBase baseScript;
+        private PlayerHealth healthScript;
+
         public override void Init(PlayerBase parent)
         {
             base.Init(parent);
             baseScript = parent.GetComponentInChildren<PlayerBase>();
+            healthScript = parent.GetComponentInChildren<PlayerHealth>();
             ChangeAction();
         }
 
@@ -21,6 +24,7 @@ namespace StateMachine
         {
             _runner.GetActiveAction().PlayAction();
             baseScript.SetJump();
+            ChangeState();
         }
 
         public override void FixedUpdate()
@@ -35,7 +39,10 @@ namespace StateMachine
 
         public override void ChangeState()
         {
-
+            if (healthScript.AskKnockBack())
+            {
+                _runner.SetState(typeof(PlayerKnockedBack));
+            }
         }
 
         public override void Exit()

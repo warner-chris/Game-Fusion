@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 19.08038
+  orthographic size: 10.945918
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 622060098}
   - component: {fileID: 622060097}
   - component: {fileID: 622060101}
+  - component: {fileID: 622060105}
   - component: {fileID: 622060102}
   - component: {fileID: 622060103}
   m_Layer: 6
@@ -357,6 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _states:
   - {fileID: 11400000, guid: e083385128aa8394fa0a418bce3ecc3f, type: 2}
+  - {fileID: 11400000, guid: 71646926d73acb243ad600652724fdb5, type: 2}
   _actions:
   - {fileID: 11400000, guid: 7329501710180bb48bb478dac1e8b5cb, type: 2}
   - {fileID: 11400000, guid: 4ae721986a4b877438075629891d5c34, type: 2}
@@ -364,6 +366,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   boxCollider: {fileID: 622060097}
 --- !u!95 &622060102
 Animator:
@@ -397,6 +402,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ee045521a56544fb52251141919523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &622060105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622060096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7088ba20269f9f444b4867d9c5a668ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 200
+  startingHealth: 0
+  knockbackTimer: 0.1
+  gravity: 0
 --- !u!1 &740942666
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +431,7 @@ GameObject:
   - component: {fileID: 740942668}
   - component: {fileID: 740942667}
   - component: {fileID: 740942671}
+  - component: {fileID: 740942674}
   - component: {fileID: 740942673}
   - component: {fileID: 740942672}
   m_Layer: 7
@@ -465,7 +487,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!212 &740942669
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -587,6 +609,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c6cbd852219d44fa64ecc231830adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &740942674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740942666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eb68c0891f918247b572ef65e3dc3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  gravity: 0
+  baseKnockback: 0.1
+  launchAngle: 0
+  knockbackScaling: 0
+  attackForce: 0
+  targetWeight: 0
+  targetObject: {fileID: 0}
+  knockBackAngle2: {x: 0, y: 0}
 --- !u!1 &889841889
 GameObject:
   m_ObjectHideFlags: 0
