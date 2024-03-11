@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator anim;
+    [SerializeField] GameObject gameManager;
+    private SoundEffects soundEffectsScript;
 
     private void Start()
     {
         anim = GetComponent<Animator>();
+        soundEffectsScript = gameManager.GetComponent<SoundEffects>();
     }
 
     public void IdleAnim()
@@ -27,6 +30,7 @@ public class PlayerAnimator : MonoBehaviour
 
     public void JumpAnim()
     {
+        soundEffectsScript.PlayJump();
         anim.SetBool("isGrounded", false);
         anim.SetBool("isRunning", false);
         anim.SetBool("isDamaged", false);
@@ -34,6 +38,7 @@ public class PlayerAnimator : MonoBehaviour
 
     public void HurtAnim()
     {
+        soundEffectsScript.PlayHurt();
         anim.SetBool("isDamaged", true);
     }
 }

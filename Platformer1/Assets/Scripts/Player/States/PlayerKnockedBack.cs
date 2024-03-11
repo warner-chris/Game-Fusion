@@ -66,7 +66,7 @@ namespace StateMachine
         {
             if (baseScript.IsGrounded())
             {
-                rb.velocity = Vector2.zero;
+                //rb.velocity = Vector2.zero;
                 rb.rotation = 0f;
                 _runner.SetState(typeof(Actionable));
             }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba4e78575301af4b89554f1605fab68, type: 3}
   m_Name: New Player Knocked Back
   m_EditorClassIdentifier: 
-  airSpeed: 5
+  airSpeed: 30
   gravMultiplier: 6
   jumpForce: 25
-  maxJumpTimer: 0.1
+  maxJumpTimer: 0.2

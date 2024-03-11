@@ -9,15 +9,21 @@ namespace StateMachine
 {
     public class PlayerBase : StateRunner<PlayerBase>
     {
+        [SerializeField] private GameObject scoreBoard;
+        private Score scoreScript;
         [SerializeField] LayerMask groundLayer;
         [SerializeField] LayerMask enemyLayer;
         [SerializeField] private BoxCollider2D boxCollider;
         private int playerDirection;
         private bool isJumping = false;
         private char wallDirection;
+        [SerializeField] GameObject gameManager;
+        private SoundEffects soundEffectsScript;
 
         protected override void Awake()
         {
+            soundEffectsScript = gameManager.GetComponent<SoundEffects>();
+            scoreScript = scoreBoard.GetComponent<Score>();
             base.Awake();
         }
 
@@ -60,6 +66,24 @@ namespace StateMachine
         public bool GetJump()
         {
             return isJumping;
+        }
+
+        public void UpdateScore(int _score)
+        {
+            if (_score == 15)
+            {
+                soundEffectsScript.PlayPotato();
+            }
+            else if (_score == 15)
+            {
+                soundEffectsScript.PlayCarrot();
+            }
+            else
+            {
+                soundEffectsScript.PlayChicken();
+            }
+
+            scoreScript.UpdateScore(_score);
         }
 
         /*

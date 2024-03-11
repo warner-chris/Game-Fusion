@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: New Boss Move
   m_EditorClassIdentifier: 
   movementSpeed: 20
-  leftMostEdge: -15
-  rightMostEdge: 14
+  leftMostEdge: -29.5
+  rightMostEdge: 32.5

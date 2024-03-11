@@ -35,18 +35,6 @@ public class DamageTestScript : MonoBehaviour
             knockBackAngle2 = DetermineKnockbackAngle();
             targetObject.TakeDamage(damage, knockbackSpeed, knockBackAngle2);
         }
-
-        else if (collision.gameObject.tag == "Boss")
-        {
-            targetObject = collision.gameObject.GetComponent<PlayerHealth>();
-            //Do knockback stuff
-            gravity = targetObject.gravity;
-            currentDamage = damage + targetObject.currentHealth;
-            knockbackSpeed = CalculateKnockbackSpeed(targetObject.weight);
-            launchAngle = Mathf.Atan2(DetermineKnockbackAngle().y, DetermineKnockbackAngle().x) * Mathf.Rad2Deg + 180f;
-            knockBackAngle2 = DetermineKnockbackAngle();
-            targetObject.TakeDamage(damage, knockbackSpeed, knockBackAngle2);
-        }
     }
 
         private float CalculateKnockbackSpeed(float weight)

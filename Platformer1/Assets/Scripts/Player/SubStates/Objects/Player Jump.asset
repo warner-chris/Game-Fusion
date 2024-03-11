@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player Jump
   m_EditorClassIdentifier: 
   jumpCounterMax: 0.35
-  firstPassJumpForce: 12
-  jumpForce: 12
+  firstPassJumpForce: 15
+  jumpForce: 25
   horizontalDecelerationValue: 20

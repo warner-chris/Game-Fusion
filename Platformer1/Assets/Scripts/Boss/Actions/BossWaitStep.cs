@@ -37,7 +37,7 @@ namespace StateMachine
         {
             if (timerCurrent <= 0)
             {
-                int rand = Random.Range(1, 99);
+                int rand = Random.Range(1, 101);
                 if (rand%2 == 1)
                 {
                     _runner.SetAction(typeof(BossMove));
