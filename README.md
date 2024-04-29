@@ -1,4 +1,4 @@
-48 hour game jam
+Made in under 48 hours
 
 Link:
 https://warner-chris.itch.io/flavor-frenzy-the-ballad-of-chefmans-stew
